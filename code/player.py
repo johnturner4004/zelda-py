@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
     self.rect = self.image.get_rect(topleft = pos)
 
     self.direction = pygame.math.Vector2()
-    self.speed = 5
+    self.speed = 15
 
   def input(self):
     keys = pygame.key.get_pressed()
@@ -28,6 +28,9 @@ class Player(pygame.sprite.Sprite):
       self.direction.x = 0
 
   def move(self, speed):
+    if self.direction.magnitude() != 0:
+      self.direction = self.direction.normalize()
+
     self.rect.center += self.direction * speed
 
   def update(self):
