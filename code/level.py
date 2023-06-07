@@ -18,14 +18,23 @@ class Level:
     self.create_map()
 
   def create_map(self):
-    for row_index, row in enumerate(WORLD_MAP):
-      for col_index, column in enumerate(row):
-        x = col_index * TILESIZE
-        y = row_index * TILESIZE
-        if column == 'x':
-          Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
-        if column == 'p':
-          self.player = Player((x, y), [self.visible_sprites], self.obstacle_sprites)
+
+    # initial setup
+
+    # for row_index, row in enumerate(WORLD_MAP):
+    #   for col_index, column in enumerate(row):
+    #     x = col_index * TILESIZE
+    #     y = row_index * TILESIZE
+    #     if column == 'x':
+    #       Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
+    #     if column == 'p':
+    #       self.player = Player((x, y), [self.visible_sprites], self.obstacle_sprites)
+
+    layout = {
+      'boundary': import_csv_layout('../map/map_FloorBlocks.csv')
+    }
+
+    self.player = Player((2000,1430), [self.visible_sprites], self.obstacle_sprites)
 
   def run(self):
     # update and draw the game
