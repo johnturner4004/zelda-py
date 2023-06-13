@@ -103,10 +103,13 @@ class Level:
   def player_attack_logic(self):
     if self.attack_sprites:
       for attack_sprite in self.attack_sprites:
-        collision_sprites = pygame.sprite.spritecollide(attack_sprite, self.attackable_sprites, True)
+        collision_sprites = pygame.sprite.spritecollide(attack_sprite, self.attackable_sprites, False)
         if collision_sprites:
           for target_sprite in collision_sprites:
-            target_sprite.kill()
+            if target_sprite.sprite_type == 'grass':
+              target_sprite.kill()
+            else:
+              target_sprite.get_damage(self.player, attack_sprite.sprite_type)
 
   def create_magic(self, style, strength, cost):
     print(style)
