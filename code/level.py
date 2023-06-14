@@ -11,6 +11,7 @@ from enemy import Enemy
 from particles import AnimationPlayer
 from magic import MagicPlayer
 from upgrade import Upgrade
+from end_game import End_Game
 
 class Level:
   def __init__(self):
@@ -18,6 +19,7 @@ class Level:
     # get the display surface
     self.display_surface = pygame.display.get_surface()
     self.game_paused = False
+    self.game_over = False
 
     # sprite group setup
     self.visible_sprites = YSortCameraGroup()
@@ -34,6 +36,7 @@ class Level:
     # user interface
     self.ui = UI()
     self.upgrade = Upgrade(self.player)
+    self.end_game = End_Game()
 
     # particles
     self.animation_player = AnimationPlayer()
@@ -130,6 +133,10 @@ class Level:
   def damage_player(self, amount, attack_type):
     if self.player.vulnerable:
       self.player.health -= amount
+      if self.player.health <= 0:
+        self.player.health = 0
+        self.game_over = True
+        print('game over')
       self.player.vulnerable = False
       self.player.hurt_time = pygame.time.get_ticks()
       self.animation_player.create_particles(attack_type, self.player.rect.center, [self.visible_sprites])
@@ -163,6 +170,8 @@ class Level:
     if self.game_paused:
       # upgrade menu
       self.upgrade.display()
+    elif self.game_over:
+      self.end_game.display()
     else: 
       # visible when game is running
       self.visible_sprites.update()
