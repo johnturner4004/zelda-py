@@ -98,7 +98,8 @@ class Level:
                   [self.visible_sprites, self.attackable_sprites], 
                   self.obstacle_sprites,
                   self.damage_player,
-                  self.trigger_death_particles)
+                  self.trigger_death_particles,
+                  self.add_xp)
 
   def create_attack(self):
     self.current_attack = Weapon(self.player, [self.visible_sprites, self.attack_sprites])
@@ -144,6 +145,9 @@ class Level:
     print(style)
     print(strength)
     print(cost)
+
+  def add_xp(self, amount):
+    self.player.exp += amount
 
   def run(self):
     # update and draw the game
